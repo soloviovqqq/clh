@@ -12,6 +12,9 @@ $router->get('reload', function () {
     return response()->json(['reloadProtocol' => config('main.reload_protocol')]);
 });
 
+$router->get('re-enter', function () {
+    return response()->json(['reEnterProtocol' => config('main.re_enter_protocol')]);
+});
 
 $router->get('generate-user', function () {
     $faker = Factory::create('ru_RU');
