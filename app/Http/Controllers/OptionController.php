@@ -21,12 +21,13 @@ class OptionController extends Controller
      */
     public function getOptions(Request $request): JsonResponse
     {
+        $sales = Option::query()->distinct()->pluck('sale')->toArray();
         $url = $request->input('url', '');
-        if(!Str::contains($url, Option::SALES)) {
+        if(!Str::contains($url, $sales)) {
             throw ValidationException::withMessages(['url' => 'This value is incorrect']);
         }
         $options = Option::query()
-            ->where('sale', $this->getSale($url))
+            ->where('sale', $this->getSale($url, $sales))
             ->get()
             ->pluck('text');
 
@@ -35,12 +36,15 @@ class OptionController extends Controller
 
     /**
      * @param string $url
+     * @param iterable $sales
      * @return string
      */
-    private function getSale(string $url): string
+    private function getSale(string $url, iterable $sales): string
     {
-        if(Str::contains($url, Option::UMEE_SALE)) {
-            return Option::UMEE_SALE;
+        foreach ($sales as $sale) {
+            if(Str::contains($url, $sale)) {
+                return $sale;
+            }
         }
     }
 }
