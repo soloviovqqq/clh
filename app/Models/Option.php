@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 class Option extends Model
 {
     public const UMEE_SALE = 'umee';
-    public const PSTAKE_SALE = 'umee';
+    public const PSTAKE_SALE = 'pstake';
 
     public const SALES = [
         self::UMEE_SALE,
